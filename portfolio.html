@@ -1,0 +1,1181 @@
+<!DOCTYPE html>  
+<html lang="en" class="scroll-smooth">  
+<head>  
+    <meta charset="UTF-8">  
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">  
+    <title>Sai Uttej Palde | Data Engineer & Architect</title>  
+    <script src="https://cdn.tailwindcss.com"></script>  
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>  
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>  
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollTrigger.min.js"></script>  
+    <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&family=Inter:wght@300;400;600&display=swap" rel="stylesheet">  
+    <script>  
+        tailwind.config = {  
+            theme: {  
+                extend: {  
+                    fontFamily: {  
+                        sans: ['Inter', 'sans-serif'],  
+                        display: ['Space Grotesk', 'sans-serif'],  
+                    },  
+                    colors: {  
+                        neon: {  
+                            blue: '#00f3ff',  
+                            purple: '#bc13fe',  
+                            green: '#0aff0a',  
+                            pink: '#ff0055'  
+                        },  
+                        dark: {  
+                            900: '#0a0a0f',  
+                            800: '#12121a',  
+                            700: '#1a1a25'  
+                        }  
+                    },  
+                    animation: {  
+                        'float': 'float 6s ease-in-out infinite',  
+                        'pulse-slow': 'pulse 4s cubic-bezier(0.4, 0, 0.6, 1) infinite',  
+                        'spin-slow': 'spin 20s linear infinite',  
+                    },  
+                    keyframes: {  
+                        float: {  
+                            '0%, 100%': { transform: 'translateY(0)' },  
+                            '50%': { transform: 'translateY(-20px)' },  
+                        }  
+                    }  
+                }  
+            }  
+        }  
+    </script>  
+    <style>  
+        body {  
+            background: #0a0a0f;  
+            color: #ffffff;  
+            overflow-x: hidden;  
+        }  
+          
+        .glass-panel {  
+            background: rgba(18, 18, 26, 0.7);  
+            backdrop-filter: blur(20px);  
+            border: 1px solid rgba(255, 255, 255, 0.1);  
+        }  
+          
+        .gradient-text {  
+            background: linear-gradient(135deg, #00f3ff 0%, #bc13fe 50%, #ff0055 100%);  
+            -webkit-background-clip: text;  
+            -webkit-text-fill-color: transparent;  
+            background-clip: text;  
+        }  
+          
+        .cyber-grid {  
+            background-image:   
+                linear-gradient(rgba(0, 243, 255, 0.03) 1px, transparent 1px),  
+                linear-gradient(90deg, rgba(0, 243, 255, 0.03) 1px, transparent 1px);  
+            background-size: 50px 50px;  
+        }  
+          
+        .skill-orbit {  
+            transform-style: preserve-3d;  
+            animation: rotate3d 20s linear infinite;  
+        }  
+          
+        @keyframes rotate3d {  
+            from { transform: rotateY(0deg); }  
+            to { transform: rotateY(360deg); }  
+        }  
+          
+        .glitch {  
+            position: relative;  
+        }  
+          
+        .glitch::before,  
+        .glitch::after {  
+            content: attr(data-text);  
+            position: absolute;  
+            top: 0;  
+            left: 0;  
+            width: 100%;  
+            height: 100%;  
+        }  
+          
+        .glitch::before {  
+            animation: glitch-1 2s infinite;  
+            color: #00f3ff;  
+            z-index: -1;  
+        }  
+          
+        .glitch::after {  
+            animation: glitch-2 2s infinite;  
+            color: #ff0055;  
+            z-index: -2;  
+        }  
+          
+        @keyframes glitch-1 {  
+            0%, 100% { transform: translate(0); }  
+            20% { transform: translate(-2px, 2px); }  
+            40% { transform: translate(-2px, -2px); }  
+            60% { transform: translate(2px, 2px); }  
+            80% { transform: translate(2px, -2px); }  
+        }  
+          
+        @keyframes glitch-2 {  
+            0%, 100% { transform: translate(0); }  
+            20% { transform: translate(2px, -2px); }  
+            40% { transform: translate(2px, 2px); }  
+            60% { transform: translate(-2px, -2px); }  
+            80% { transform: translate(-2px, 2px); }  
+        }  
+          
+        .data-particle {  
+            position: absolute;  
+            width: 4px;  
+            height: 4px;  
+            background: #00f3ff;  
+            border-radius: 50%;  
+            pointer-events: none;  
+        }  
+          
+        .pipeline-flow {  
+            stroke-dasharray: 10;  
+            animation: dash 2s linear infinite;  
+        }  
+          
+        @keyframes dash {  
+            to { stroke-dashoffset: -20; }  
+        }  
+          
+        .hover-card {  
+            transition: all 0.3s ease;  
+        }  
+          
+        .hover-card:hover {  
+            transform: translateY(-10px) scale(1.02);  
+            box-shadow: 0 20px 40px rgba(0, 243, 255, 0.2);  
+        }  
+          
+        .custom-cursor {  
+            width: 20px;  
+            height: 20px;  
+            border: 2px solid #00f3ff;  
+            border-radius: 50%;  
+            position: fixed;  
+            pointer-events: none;  
+            z-index: 9999;  
+            transition: transform 0.1s;  
+            mix-blend-mode: difference;  
+        }  
+          
+        .custom-cursor-dot {  
+            width: 4px;  
+            height: 4px;  
+            background: #00f3ff;  
+            border-radius: 50%;  
+            position: fixed;  
+            pointer-events: none;  
+            z-index: 9999;  
+        }  
+          
+        #canvas-container {  
+            position: fixed;  
+            top: 0;  
+            left: 0;  
+            width: 100%;  
+            height: 100%;  
+            z-index: -1;  
+        }  
+          
+        .section-reveal {  
+            opacity: 0;  
+            transform: translateY(50px);  
+        }  
+          
+        .metric-counter {  
+            font-variant-numeric: tabular-nums;  
+        }  
+          
+        .tech-stack-item {  
+            transition: all 0.3s ease;  
+        }  
+          
+        .tech-stack-item:hover {  
+            transform: scale(1.1);  
+            filter: brightness(1.5);  
+        }  
+          
+        .experience-timeline::before {  
+            content: '';  
+            position: absolute;  
+            left: 50%;  
+            transform: translateX(-50%);  
+            width: 2px;  
+            height: 100%;  
+            background: linear-gradient(180deg, #00f3ff, #bc13fe, #ff0055);  
+        }  
+          
+        @media (max-width: 768px) {  
+            .experience-timeline::before {  
+                left: 20px;  
+            }  
+        }  
+    </style>  
+</head>  
+<body class="font-sans antialiased">  
+    <!-- Custom Cursor -->  
+    <div class="custom-cursor hidden md:block" id="cursor"></div>  
+    <div class="custom-cursor-dot hidden md:block" id="cursor-dot"></div>  
+      
+    <!-- Three.js Background -->  
+    <div id="canvas-container"></div>  
+      
+    <!-- Navigation -->  
+    <nav class="fixed top-0 w-full z-50 glass-panel border-b border-white/10">  
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">  
+            <div class="flex justify-between items-center h-16">  
+                <div class="flex-shrink-0 flex items-center gap-2">  
+                    <div class="w-8 h-8 bg-gradient-to-br from-neon-blue to-neon-purple rounded-lg flex items-center justify-center">  
+                        <span class="text-white font-bold text-sm">S</span>  
+                    </div>  
+                    <span class="font-display font-bold text-xl tracking-tight">  
+                        <span class="text-white">Sai</span><span class="text-neon-blue">Uttej</span>  
+                    </span>  
+                </div>  
+                <div class="hidden md:flex space-x-8">  
+                    <a href="#hero" class="text-gray-300 hover:text-neon-blue transition-colors text-sm font-medium">Home</a>  
+                    <a href="#metrics" class="text-gray-300 hover:text-neon-blue transition-colors text-sm font-medium">Impact</a>  
+                    <a href="#experience" class="text-gray-300 hover:text-neon-blue transition-colors text-sm font-medium">Experience</a>  
+                    <a href="#skills" class="text-gray-300 hover:text-neon-blue transition-colors text-sm font-medium">Tech Stack</a>  
+                    <a href="#projects" class="text-gray-300 hover:text-neon-blue transition-colors text-sm font-medium">Projects</a>  
+                </div>  
+                <button onclick="scrollToContact()" class="bg-gradient-to-r from-neon-blue to-neon-purple px-6 py-2 rounded-full text-white font-medium text-sm hover:shadow-lg hover:shadow-neon-blue/50 transition-all transform hover:scale-105">  
+                    Let's Talk  
+                </button>  
+            </div>  
+        </div>  
+    </nav>  
+  
+    <!-- Hero Section -->  
+    <section id="hero" class="relative min-h-screen flex items-center justify-center overflow-hidden pt-16">  
+        <div class="absolute inset-0 cyber-grid opacity-30"></div>  
+          
+        <div class="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">  
+            <div class="mb-8 inline-block">  
+                <span class="px-4 py-2 rounded-full glass-panel text-neon-blue text-sm font-medium border border-neon-blue/30 animate-pulse-slow">  
+                    Available for Senior Data Engineering Roles  
+                </span>  
+            </div>  
+              
+            <h1 class="font-display text-5xl md:text-7xl lg:text-8xl font-bold mb-6 leading-tight">  
+                <span class="block text-white glitch" data-text="Data Engineer">Data Engineer</span>  
+                <span class="block gradient-text mt-2">& Cloud Architect</span>  
+            </h1>  
+              
+            <p class="mt-6 max-w-2xl mx-auto text-xl text-gray-400 leading-relaxed">  
+                Architecting <span class="text-neon-blue font-semibold">scalable data pipelines</span>,   
+                optimizing <span class="text-neon-purple font-semibold">cloud infrastructure</span>,   
+                and building <span class="text-neon-green font-semibold">AI-driven analytics</span>   
+                solutions that process 500GB+ daily across AWS & Azure.  
+            </p>  
+              
+            <div class="mt-10 flex flex-col sm:flex-row gap-4 justify-center">  
+                <button onclick="scrollToSection('projects')" class="group relative px-8 py-4 bg-gradient-to-r from-neon-blue to-neon-purple rounded-full font-semibold text-white overflow-hidden transition-all hover:scale-105 hover:shadow-2xl hover:shadow-neon-blue/50">  
+                    <span class="relative z-10">View Projects</span>  
+                    <div class="absolute inset-0 bg-white opacity-0 group-hover:opacity-20 transition-opacity"></div>  
+                </button>  
+                <button onclick="downloadResume()" class="px-8 py-4 glass-panel rounded-full font-semibold text-white border border-white/20 hover:border-neon-blue/50 hover:bg-white/5 transition-all">  
+                    Download Resume  
+                </button>  
+            </div>  
+              
+            <!-- Floating Stats -->  
+            <div class="mt-20 grid grid-cols-2 md:grid-cols-4 gap-6 max-w-4xl mx-auto">  
+                <div class="glass-panel p-6 rounded-2xl hover-card animate-float" style="animation-delay: 0s;">  
+                    <div class="text-3xl font-bold text-neon-blue metric-counter" data-target="3">0</div>  
+                    <div class="text-sm text-gray-400 mt-1">Years Experience</div>  
+                </div>  
+                <div class="glass-panel p-6 rounded-2xl hover-card animate-float" style="animation-delay: 0.5s;">  
+                    <div class="text-3xl font-bold text-neon-purple metric-counter" data-target="500">0</div>  
+                    <div class="text-sm text-gray-400 mt-1">GB+ Daily Processed</div>  
+                </div>  
+                <div class="glass-panel p-6 rounded-2xl hover-card animate-float" style="animation-delay: 1s;">  
+                    <div class="text-3xl font-bold text-neon-green metric-counter" data-target="60">0</div>  
+                    <div class="text-sm text-gray-400 mt-1">% Latency Reduced</div>  
+                </div>  
+                <div class="glass-panel p-6 rounded-2xl hover-card animate-float" style="animation-delay: 1.5s;">  
+                    <div class="text-3xl font-bold text-neon-pink metric-counter" data-target="99">0</div>  
+                    <div class="text-sm text-gray-400 mt-1">.5% Uptime Achieved</div>  
+                </div>  
+            </div>  
+        </div>  
+          
+        <!-- Scroll Indicator -->  
+        <div class="absolute bottom-10 left-1/2 transform -translate-x-1/2 animate-bounce">  
+            <svg class="w-6 h-6 text-neon-blue" fill="none" stroke="currentColor" viewBox="0 0 24 24">  
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 14l-7 7m0 0l-7-7m7 7V3"></path>  
+            </svg>  
+        </div>  
+    </section>  
+  
+    <!-- Live Metrics Dashboard -->  
+    <section id="metrics" class="py-20 relative overflow-hidden">  
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">  
+            <div class="text-center mb-16 section-reveal">  
+                <h2 class="font-display text-4xl md:text-5xl font-bold mb-4">  
+                    Real-Time <span class="gradient-text">Impact Metrics</span>  
+                </h2>  
+                <p class="text-gray-400">Live data processing simulation of production workloads</p>  
+            </div>  
+              
+            <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">  
+                <!-- Live Data Stream -->  
+                <div class="lg:col-span-2 glass-panel rounded-3xl p-8 section-reveal">  
+                    <div class="flex justify-between items-center mb-6">  
+                        <h3 class="text-xl font-semibold text-white flex items-center gap-2">  
+                            <span class="w-2 h-2 bg-neon-green rounded-full animate-pulse"></span>  
+                            Live Data Pipeline Throughput  
+                        </h3>  
+                        <span class="text-neon-blue font-mono" id="throughput">0 MB/s</span>  
+                    </div>  
+                    <canvas id="metricsChart" class="w-full h-64"></canvas>  
+                    <div class="grid grid-cols-4 gap-4 mt-6">  
+                        <div class="text-center">  
+                            <div class="text-2xl font-bold text-neon-blue" id="recordsProcessed">0</div>  
+                            <div class="text-xs text-gray-500">Records/sec</div>  
+                        </div>  
+                        <div class="text-center">  
+                            <div class="text-2xl font-bold text-neon-purple" id="activePipelines">12</div>  
+                            <div class="text-xs text-gray-500">Active Pipelines</div>  
+                        </div>  
+                        <div class="text-center">  
+                            <div class="text-2xl font-bold text-neon-green" id="successRate">99.9%</div>  
+                            <div class="text-xs text-gray-500">Success Rate</div>  
+                        </div>  
+                        <div class="text-center">  
+                            <div class="text-2xl font-bold text-neon-pink" id="latency">45ms</div>  
+                            <div class="text-xs text-gray-500">Avg Latency</div>  
+                        </div>  
+                    </div>  
+                </div>  
+                  
+                <!-- Cost Optimization -->  
+                <div class="glass-panel rounded-3xl p-8 section-reveal">  
+                    <h3 class="text-xl font-semibold text-white mb-6">Cost Optimization</h3>  
+                    <div class="space-y-6">  
+                        <div>  
+                            <div class="flex justify-between mb-2">  
+                                <span class="text-gray-400">Infrastructure Cost</span>  
+                                <span class="text-neon-green font-semibold">-20%</span>  
+                            </div>  
+                            <div class="h-2 bg-dark-700 rounded-full overflow-hidden">  
+                                <div class="h-full bg-gradient-to-r from-neon-green to-neon-blue w-4/5 rounded-full"></div>  
+                            </div>  
+                        </div>  
+                        <div>  
+                            <div class="flex justify-between mb-2">  
+                                <span class="text-gray-400">Query Performance</span>  
+                                <span class="text-neon-blue font-semibold">+60%</span>  
+                            </div>  
+                            <div class="h-2 bg-dark-700 rounded-full overflow-hidden">  
+                                <div class="h-full bg-gradient-to-r from-neon-blue to-neon-purple w-3/5 rounded-full"></div>  
+                            </div>  
+                        </div>  
+                        <div>  
+                            <div class="flex justify-between mb-2">  
+                                <span class="text-gray-400">Pipeline Reliability</span>  
+                                <span class="text-neon-purple font-semibold">99.5%</span>  
+                            </div>  
+                            <div class="h-2 bg-dark-700 rounded-full overflow-hidden">  
+                                <div class="h-full bg-gradient-to-r from-neon-purple to-neon-pink w-[99%] rounded-full"></div>  
+                            </div>  
+                        </div>  
+                    </div>  
+                      
+                    <div class="mt-8 p-4 bg-dark-700/50 rounded-xl">  
+                        <div class="flex items-center gap-3">  
+                            <div class="w-10 h-10 rounded-full bg-neon-blue/20 flex items-center justify-center">  
+                                <svg class="w-5 h-5 text-neon-blue" fill="none" stroke="currentColor" viewBox="0 0 24 24">  
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"></path>  
+                                </svg>  
+                            </div>  
+                            <div>  
+                                <div class="text-sm font-semibold text-white">Total Savings</div>  
+                                <div class="text-2xl font-bold text-neon-blue">$50K+</div>  
+                            </div>  
+                        </div>  
+                    </div>  
+                </div>  
+            </div>  
+        </div>  
+    </section>  
+  
+    <!-- Experience Timeline -->  
+    <section id="experience" class="py-20 relative">  
+        <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">  
+            <div class="text-center mb-16 section-reveal">  
+                <h2 class="font-display text-4xl md:text-5xl font-bold mb-4">  
+                    Professional <span class="gradient-text">Journey</span>  
+                </h2>  
+                <p class="text-gray-400">Building data infrastructure at scale</p>  
+            </div>  
+              
+            <div class="relative experience-timeline space-y-12">  
+                <!-- Cowbell -->  
+                <div class="relative section-reveal">  
+                    <div class="md:flex items-center justify-between">  
+                        <div class="md:w-5/12 md:text-right pr-8 hidden md:block">  
+                            <div class="glass-panel p-6 rounded-2xl hover-card inline-block text-left">  
+                                <span class="text-neon-blue text-sm font-semibold">Dec 2025 - Present</span>  
+                                <h3 class="text-xl font-bold text-white mt-2">Software Engineer III</h3>  
+                                <p class="text-gray-400 text-sm">Senior Data Engineer - Data Acquisition</p>  
+                            </div>  
+                        </div>  
+                          
+                        <div class="absolute left-1/2 transform -translate-x-1/2 w-4 h-4 bg-neon-blue rounded-full border-4 border-dark-900 z-10 hidden md:block"></div>  
+                          
+                        <div class="md:w-5/12 md:pl-8">  
+                            <div class="glass-panel p-6 rounded-2xl hover-card">  
+                                <div class="md:hidden mb-4">  
+                                    <span class="text-neon-blue text-sm font-semibold">Dec 2025 - Present</span>  
+                                    <h3 class="text-xl font-bold text-white mt-2">Software Engineer III</h3>  
+                                    <p class="text-gray-400 text-sm">Cowbell - Remote (US-Based Insurtech)</p>  
+                                </div>  
+                                <h4 class="text-lg font-semibold text-white mb-3 hidden md:block">Cowbell</h4>  
+                                <ul class="space-y-2 text-gray-400 text-sm">  
+                                    <li class="flex items-start gap-2">  
+                                        <span class="text-neon-blue mt-1">▹</span>  
+                                        Architecting ETL/ELT pipelines processing 300GB+ daily using AWS Glue, PySpark  
+                                    </li>  
+                                    <li class="flex items-start gap-2">  
+                                        <span class="text-neon-blue mt-1">▹</span>  
+                                        Automated API ingestion frameworks across 10+ heterogeneous source systems  
+                                    </li>  
+                                    <li class="flex items-start gap-2">  
+                                        <span class="text-neon-blue mt-1">▹</span>  
+                                        Improved query performance by 35% through optimization strategies  
+                                    </li>  
+                                    <li class="flex items-start gap-2">  
+                                        <span class="text-neon-blue mt-1">▹</span>  
+                                        Achieved 99.5%+ uptime with CloudWatch monitoring and alerting  
+                                    </li>  
+                                </ul>  
+                            </div>  
+                        </div>  
+                    </div>  
+                </div>  
+                  
+                <!-- Bajaj Finserv II -->  
+                <div class="relative section-reveal">  
+                    <div class="md:flex items-center justify-between flex-row-reverse">  
+                        <div class="md:w-5/12 md:text-left pl-8 hidden md:block">  
+                            <div class="glass-panel p-6 rounded-2xl hover-card inline-block text-left">  
+                                <span class="text-neon-purple text-sm font-semibold">Jan 2025 - Nov 2025</span>  
+                                <h3 class="text-xl font-bold text-white mt-2">Software Engineer II</h3>  
+                                <p class="text-gray-400 text-sm">Data Engineering</p>  
+                            </div>  
+                        </div>  
+                          
+                        <div class="absolute left-1/2 transform -translate-x-1/2 w-4 h-4 bg-neon-purple rounded-full border-4 border-dark-900 z-10 hidden md:block"></div>  
+                          
+                        <div class="md:w-5/12 md:pr-8 md:text-right">  
+                            <div class="glass-panel p-6 rounded-2xl hover-card text-left md:text-right">  
+                                <div class="md:hidden mb-4">  
+                                    <span class="text-neon-purple text-sm font-semibold">Jan 2025 - Nov 2025</span>  
+                                    <h3 class="text-xl font-bold text-white mt-2">Software Engineer II</h3>  
+                                    <p class="text-gray-400 text-sm">Bajaj Finserv Direct Ltd</p>  
+                                </div>  
+                                <h4 class="text-lg font-semibold text-white mb-3 hidden md:block">Bajaj Finserv Direct Ltd</h4>  
+                                <ul class="space-y-2 text-gray-400 text-sm md:text-right">  
+                                    <li class="flex items-start gap-2 md:flex-row-reverse">  
+                                        <span class="text-neon-purple mt-1">▹</span>  
+                                        <span>Apache Airflow orchestration with Great Expectations data quality (99%+ accuracy)</span>  
+                                    </li>  
+                                    <li class="flex items-start gap-2 md:flex-row-reverse">  
+                                        <span class="text-neon-purple mt-1">▹</span>  
+                                        <span>Azure Databricks PySpark processing 500GB+ daily, 60% latency reduction</span>  
+                                    </li>  
+                                    <li class="flex items-start gap-2 md:flex-row-reverse">  
+                                        <span class="text-neon-purple mt-1">▹</span>  
+                                        <span>Multi-layer lakehouse architecture (Bronze/Silver/Gold) with Delta Lake</span>  
+                                    </li>  
+                                    <li class="flex items-start gap-2 md:flex-row-reverse">  
+                                        <span class="text-neon-purple mt-1">▹</span>  
+                                        <span>CI/CD pipelines with GitHub Actions reducing release cycle time</span>  
+                                    </li>  
+                                </ul>  
+                            </div>  
+                        </div>  
+                    </div>  
+                </div>  
+                  
+                <!-- Bajaj Finserv I -->  
+                <div class="relative section-reveal">  
+                    <div class="md:flex items-center justify-between">  
+                        <div class="md:w-5/12 md:text-right pr-8 hidden md:block">  
+                            <div class="glass-panel p-6 rounded-2xl hover-card inline-block text-left">  
+                                <span class="text-neon-green text-sm font-semibold">Jul 2023 - Dec 2024</span>  
+                                <h3 class="text-xl font-bold text-white mt-2">Software Engineer I</h3>  
+                                <p class="text-gray-400 text-sm">Data Engineering</p>  
+                            </div>  
+                        </div>  
+                          
+                        <div class="absolute left-1/2 transform -translate-x-1/2 w-4 h-4 bg-neon-green rounded-full border-4 border-dark-900 z-10 hidden md:block"></div>  
+                          
+                        <div class="md:w-5/12 md:pl-8">  
+                            <div class="glass-panel p-6 rounded-2xl hover-card">  
+                                <div class="md:hidden mb-4">  
+                                    <span class="text-neon-green text-sm font-semibold">Jul 2023 - Dec 2024</span>  
+                                    <h3 class="text-xl font-bold text-white mt-2">Software Engineer I</h3>  
+                                    <p class="text-gray-400 text-sm">Bajaj Finserv Direct Ltd</p>  
+                                </div>  
+                                <h4 class="text-lg font-semibold text-white mb-3 hidden md:block">Bajaj Finserv Direct Ltd</h4>  
+                                <ul class="space-y-2 text-gray-400 text-sm">  
+                                    <li class="flex items-start gap-2">  
+                                        <span class="text-neon-green mt-1">▹</span>  
+                                        Built FastAPI microservices serving 100K+ daily requests (sub-200ms response)  
+                                    </li>  
+                                    <li class="flex items-start gap-2">  
+                                        <span class="text-neon-green mt-1">▹</span>  
+                                        Automated Airflow DAGs with AWS Glue/EMR, 40% reduction in operational failures  
+                                    </li>  
+                                    <li class="flex items-start gap-2">  
+                                        <span class="text-neon-green mt-1">▹</span>  
+                                        SQL optimization reducing infrastructure costs by 20%  
+                                    </li>  
+                                    <li class="flex items-start gap-2">  
+                                        <span class="text-neon-green mt-1">▹</span>  
+                                        DataOps practices: code reviews, monitoring, incident management  
+                                    </li>  
+                                </ul>  
+                            </div>  
+                        </div>  
+                    </div>  
+                </div>  
+            </div>  
+        </div>  
+    </section>  
+  
+    <!-- Skills Constellation -->  
+    <section id="skills" class="py-20 relative overflow-hidden">  
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">  
+            <div class="text-center mb-16 section-reveal">  
+                <h2 class="font-display text-4xl md:text-5xl font-bold mb-4">  
+                    Technical <span class="gradient-text">Universe</span>  
+                </h2>  
+                <p class="text-gray-400">Hover to explore my tech stack</p>  
+            </div>  
+              
+            <div class="relative h-[600px] flex items-center justify-center section-reveal" id="skillsContainer">  
+                <!-- Center -->  
+                <div class="absolute z-20 w-32 h-32 rounded-full bg-gradient-to-br from-neon-blue to-neon-purple flex items-center justify-center text-white font-bold text-lg shadow-2xl shadow-neon-blue/50 animate-pulse-slow">  
+                    Data Eng  
+                </div>  
+                  
+                <!-- Orbiting Skills -->  
+                <div class="skill-orbit absolute w-[500px] h-[500px] md:w-[600px] md:h-[600px]">  
+                    <!-- AWS -->  
+                    <div class="tech-stack-item absolute top-0 left-1/2 transform -translate-x-1/2 -translate-y-1/2 glass-panel px-6 py-3 rounded-full border border-neon-blue/30 cursor-pointer group" data-skill="aws">  
+                        <span class="text-neon-blue font-semibold">AWS</span>  
+                        <div class="absolute inset-0 rounded-full bg-neon-blue/20 opacity-0 group-hover:opacity-100 transition-opacity blur-xl"></div>  
+                    </div>  
+                      
+                    <!-- Azure -->  
+                    <div class="tech-stack-item absolute top-1/2 right-0 transform translate-x-1/2 -translate-y-1/2 glass-panel px-6 py-3 rounded-full border border-neon-purple/30 cursor-pointer group" data-skill="azure">  
+                        <span class="text-neon-purple font-semibold">Azure</span>  
+                        <div class="absolute inset-0 rounded-full bg-neon-purple/20 opacity-0 group-hover:opacity-100 transition-opacity blur-xl"></div>  
+                    </div>  
+                      
+                    <!-- Spark -->  
+                    <div class="tech-stack-item absolute bottom-0 left-1/2 transform -translate-x-1/2 translate-y-1/2 glass-panel px-6 py-3 rounded-full border border-neon-green/30 cursor-pointer group" data-skill="spark">  
+                        <span class="text-neon-green font-semibold">Apache Spark</span>  
+                        <div class="absolute inset-0 rounded-full bg-neon-green/20 opacity-0 group-hover:opacity-100 transition-opacity blur-xl"></div>  
+                    </div>  
+                      
+                    <!-- Python -->  
+                    <div class="tech-stack-item absolute top-1/2 left-0 transform -translate-x-1/2 -translate-y-1/2 glass-panel px-6 py-3 rounded-full border border-neon-pink/30 cursor-pointer group" data-skill="python">  
+                        <span class="text-neon-pink font-semibold">Python</span>  
+                        <div class="absolute inset-0 rounded-full bg-neon-pink/20 opacity-0 group-hover:opacity-100 transition-opacity blur-xl"></div>  
+                    </div>  
+                      
+                    <!-- Snowflake -->  
+                    <div class="tech-stack-item absolute top-[15%] right-[15%] glass-panel px-5 py-2 rounded-full border border-white/20 cursor-pointer group" data-skill="snowflake">  
+                        <span class="text-white font-semibold text-sm">Snowflake</span>  
+                    </div>  
+                      
+                    <!-- Airflow -->  
+                    <div class="tech-stack-item absolute top-[15%] left-[15%] glass-panel px-5 py-2 rounded-full border border-white/20 cursor-pointer group" data-skill="airflow">  
+                        <span class="text-white font-semibold text-sm">Airflow</span>  
+                    </div>  
+                      
+                    <!-- dbt -->  
+                    <div class="tech-stack-item absolute bottom-[15%] right-[15%] glass-panel px-5 py-2 rounded-full border border-white/20 cursor-pointer group" data-skill="dbt">  
+                        <span class="text-white font-semibold text-sm">dbt</span>  
+                    </div>  
+                      
+                    <!-- Kafka -->  
+                    <div class="tech-stack-item absolute bottom-[15%] left-[15%] glass-panel px-5 py-2 rounded-full border border-white/20 cursor-pointer group" data-skill="kafka">  
+                        <span class="text-white font-semibold text-sm">Kafka</span>  
+                    </div>  
+                </div>  
+                  
+                <!-- Skill Detail Card -->  
+                <div id="skillDetail" class="absolute bottom-10 left-1/2 transform -translate-x-1/2 glass-panel p-6 rounded-2xl max-w-sm opacity-0 transition-all duration-300 pointer-events-none">  
+                    <h3 class="text-xl font-bold text-white mb-2" id="skillTitle"></h3>  
+                    <p class="text-gray-400 text-sm" id="skillDesc"></p>  
+                </div>  
+            </div>  
+              
+            <!-- Additional Skills Grid -->  
+            <div class="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-6 gap-4 mt-12 section-reveal">  
+                <div class="glass-panel p-4 rounded-xl text-center hover:border-neon-blue/50 transition-colors cursor-pointer group">  
+                    <div class="text-2xl mb-2 group-hover:scale-110 transition-transform">🐍</div>  
+                    <div class="text-sm text-gray-400">PySpark</div>  
+                </div>  
+                <div class="glass-panel p-4 rounded-xl text-center hover:border-neon-purple/50 transition-colors cursor-pointer group">  
+                    <div class="text-2xl mb-2 group-hover:scale-110 transition-transform">☁️</div>  
+                    <div class="text-sm text-gray-400">Databricks</div>  
+                </div>  
+                <div class="glass-panel p-4 rounded-xl text-center hover:border-neon-green/50 transition-colors cursor-pointer group">  
+                    <div class="text-2xl mb-2 group-hover:scale-110 transition-transform">🏭</div>  
+                    <div class="text-sm text-gray-400">Data Factory</div>  
+                </div>  
+                <div class="glass-panel p-4 rounded-xl text-center hover:border-neon-pink/50 transition-colors cursor-pointer group">  
+                    <div class="text-2xl mb-2 group-hover:scale-110 transition-transform">🧊</div>  
+                    <div class="text-sm text-gray-400">Delta Lake</div>  
+                </div>  
+                <div class="glass-panel p-4 rounded-xl text-center hover:border-neon-blue/50 transition-colors cursor-pointer group">  
+                    <div class="text-2xl mb-2 group-hover:scale-110 transition-transform">🤖</div>  
+                    <div class="text-sm text-gray-400">LangChain</div>  
+                </div>  
+                <div class="glass-panel p-4 rounded-xl text-center hover:border-neon-purple/50 transition-colors cursor-pointer group">  
+                    <div class="text-2xl mb-2 group-hover:scale-110 transition-transform">🔍</div>  
+                    <div class="text-sm text-gray-400">Elasticsearch</div>  
+                </div>  
+            </div>  
+        </div>  
+    </section>  
+  
+    <!-- Projects Showcase -->  
+    <section id="projects" class="py-20 relative">  
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">  
+            <div class="text-center mb-16 section-reveal">  
+                <h2 class="font-display text-4xl md:text-5xl font-bold mb-4">  
+                    Featured <span class="gradient-text">Projects</span>  
+                </h2>  
+                <p class="text-gray-400">Enterprise-scale data solutions</p>  
+            </div>  
+              
+            <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">  
+                <!-- Project 1 -->  
+                <div class="lg:col-span-2 glass-panel rounded-3xl overflow-hidden section-reveal group">  
+                    <div class="relative h-64 md:h-80 overflow-hidden">  
+                        <div class="absolute inset-0 bg-gradient-to-br from-neon-blue/20 to-neon-purple/20"></div>  
+                        <div class="absolute inset-0 flex items-center justify-center">  
+                            <div class="text-center">  
+                                <div class="text-6xl mb-4 animate-float">☁️</div>  
+                                <div class="text-2xl font-bold text-white">Hybrid Cloud Platform</div>  
+                            </div>  
+                        </div>  
+                        <div class="absolute inset-0 bg-gradient-to-t from-dark-900 via-transparent to-transparent"></div>  
+                    </div>  
+                    <div class="p-8">  
+                        <div class="flex flex-wrap gap-2 mb-4">  
+                            <span class="px-3 py-1 rounded-full bg-neon-blue/10 text-neon-blue text-xs">AWS</span>  
+                            <span class="px-3 py-1 rounded-full bg-neon-purple/10 text-neon-purple text-xs">Azure</span>  
+                            <span class="px-3 py-1 rounded-full bg-neon-green/10 text-neon-green text-xs">Delta Lake</span>  
+                            <span class="px-3 py-1 rounded-full bg-neon-pink/10 text-neon-pink text-xs">Airflow</span>  
+                        </div>  
+                        <h3 class="text-2xl font-bold text-white mb-3">Enterprise Hybrid ETL/ELT Platform</h3>  
+                        <p class="text-gray-400 mb-6">  
+                            Architected end-to-end cloud-native data platform integrating Azure Data Factory, Azure Databricks,   
+                            Apache Airflow, ADLS Gen2, Delta Lake, and Amazon Redshift. Implemented Bronze/Silver/Gold lakehouse   
+                            architecture enabling real-time and batch analytics.  
+                        </p>  
+                        <div class="flex items-center gap-6 text-sm">  
+                            <div class="flex items-center gap-2 text-neon-blue">  
+                                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">  
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"></path>  
+                                </svg>  
+                                <span>40% Faster Ingestion</span>  
+                            </div>  
+                            <div class="flex items-center gap-2 text-neon-green">  
+                                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">  
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path>  
+                                </svg>  
+                                <span>Production Ready</span>  
+                            </div>  
+                        </div>  
+                    </div>  
+                </div>  
+                  
+                <!-- Project 2 -->  
+                <div class="glass-panel rounded-3xl overflow-hidden section-reveal group">  
+                    <div class="relative h-48 overflow-hidden">  
+                        <div class="absolute inset-0 bg-gradient-to-br from-neon-green/20 to-neon-blue/20"></div>  
+                        <div class="absolute inset-0 flex items-center justify-center">  
+                            <div class="text-5xl animate-float" style="animation-delay: 0.5s;">🤖</div>  
+                        </div>  
+                    </div>  
+                    <div class="p-6">  
+                        <div class="flex flex-wrap gap-2 mb-4">  
+                            <span class="px-3 py-1 rounded-full bg-neon-green/10 text-neon-green text-xs">RAG</span>  
+                            <span class="px-3 py-1 rounded-full bg-neon-blue/10 text-neon-blue text-xs">AWS Bedrock</span>  
+                            <span class="px-3 py-1 rounded-full bg-neon-purple/10 text-neon-purple text-xs">LangChain</span>  
+                        </div>  
+                        <h3 class="text-xl font-bold text-white mb-2">AI-Powered Data Assistant</h3>  
+                        <p class="text-gray-400 text-sm mb-4">  
+                            Built a Retrieval-Augmented Generation (RAG) analytics chatbot using LangChain, AWS Bedrock,   
+                            Microsoft Fabric, and Elasticsearch. Enabled natural language querying of enterprise data assets.  
+                        </p>  
+                        <div class="text-neon-green text-sm font-semibold">50% SQL Workload Reduction</div>  
+                    </div>  
+                </div>  
+                  
+                <!-- Project 3 -->  
+                <div class="glass-panel rounded-3xl overflow-hidden section-reveal group">  
+                    <div class="relative h-48 overflow-hidden">  
+                        <div class="absolute inset-0 bg-gradient-to-br from-neon-pink/20 to-neon-purple/20"></div>  
+                        <div class="absolute inset-0 flex items-center justify-center">  
+                            <div class="text-5xl animate-float" style="animation-delay: 1s;">🔄</div>  
+                        </div>  
+                    </div>  
+                    <div class="p-6">  
+                        <div class="flex flex-wrap gap-2 mb-4">  
+                            <span class="px-3 py-1 rounded-full bg-neon-pink/10 text-neon-pink text-xs">Self-Healing</span>  
+                            <span class="px-3 py-1 rounded-full bg-neon-purple/10 text-neon-purple text-xs">Monitoring</span>  
+                            <span class="px-3 py-1 rounded-full bg-neon-blue/10 text-neon-blue text-xs">Airflow</span>  
+                        </div>  
+                        <h3 class="text-xl font-bold text-white mb-2">Self-Healing ETL Framework</h3>  
+                        <p class="text-gray-400 text-sm mb-4">  
+                            Designed fault-tolerant pipeline framework with automated retry logic, anomaly detection,   
+                            dead-letter queues, Slack/PagerDuty alerting, and auto-recovery mechanisms.  
+                        </p>  
+                        <div class="text-neon-pink text-sm font-semibold">40% Failure Reduction</div>  
+                    </div>  
+                </div>  
+                  
+                <!-- Project 4 -->  
+                <div class="lg:col-span-2 glass-panel rounded-3xl overflow-hidden section-reveal group">  
+                    <div class="relative h-64 md:h-80 overflow-hidden">  
+                        <div class="absolute inset-0 bg-gradient-to-br from-neon-purple/20 to-neon-pink/20"></div>  
+                        <div class="absolute inset-0 flex items-center justify-center">  
+                            <div class="text-center">  
+                                <div class="text-6xl mb-4 animate-float" style="animation-delay: 1.5s;">📊</div>  
+                                <div class="text-2xl font-bold text-white">Real-time Analytics</div>  
+                            </div>  
+                        </div>  
+                        <div class="absolute inset-0 bg-gradient-to-t from-dark-900 via-transparent to-transparent"></div>  
+                    </div>  
+                    <div class="p-8">  
+                        <div class="flex flex-wrap gap-2 mb-4">  
+                            <span class="px-3 py-1 rounded-full bg-neon-purple/10 text-neon-purple text-xs">FastAPI</span>  
+                            <span class="px-3 py-1 rounded-full bg-neon-pink/10 text-neon-pink text-xs">Redshift</span>  
+                            <span class="px-3 py-1 rounded-full bg-neon-blue/10 text-neon-blue text-xs">PostgreSQL</span>  
+                            <span class="px-3 py-1 rounded-full bg-neon-green/10 text-neon-green text-xs">Power BI</span>  
+                        </div>  
+                        <h3 class="text-2xl font-bold text-white mb-3">High-Performance API & Analytics Suite</h3>  
+                        <p class="text-gray-400 mb-6">  
+                            Built FastAPI microservices integrated with PostgreSQL and Amazon Redshift, serving 100K+ daily API   
+                            requests with sub-200ms response time. Delivered executive-level dashboards in Power BI, Tableau,   
+                            and QuickSight enabling data-driven KPI tracking for 5+ business units.  
+                        </p>  
+                        <div class="flex items-center gap-6 text-sm">  
+                            <div class="flex items-center gap-2 text-neon-blue">  
+                                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">  
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"></path>  
+                                </svg>  
+                                <span>&lt;200ms Response Time</span>  
+                            </div>  
+                            <div class="flex items-center gap-2 text-neon-purple">  
+                                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">  
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z"></path>  
+                                </svg>  
+                                <span>Sub-second Queries</span>  
+                            </div>  
+                        </div>  
+                    </div>  
+                </div>  
+            </div>  
+        </div>  
+    </section>  
+  
+    <!-- Certifications -->  
+    <section class="py-20 relative overflow-hidden">  
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">  
+            <div class="text-center mb-16 section-reveal">  
+                <h2 class="font-display text-4xl md:text-5xl font-bold mb-4">  
+                    <span class="gradient-text">Certifications</span>  
+                </h2>  
+            </div>  
+              
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-8">  
+                <div class="glass-panel p-8 rounded-3xl text-center section-reveal hover-card group cursor-pointer">  
+                    <div class="w-20 h-20 mx-auto mb-6 rounded-2xl bg-gradient-to-br from-neon-blue to-neon-purple flex items-center justify-center text-3xl transform group-hover:scale-110 group-hover:rotate-6 transition-all">  
+                        ☁️  
+                    </div>  
+                    <h3 class="text-xl font-bold text-white mb-2">AWS Certified</h3>  
+                    <p class="text-neon-blue font-semibold mb-2">Data Engineer - Associate</p>  
+                    <p class="text-gray-400 text-sm">Issued 2024</p>  
+                </div>  
+                  
+                <div class="glass-panel p-8 rounded-3xl text-center section-reveal hover-card group cursor-pointer">  
+                    <div class="w-20 h-20 mx-auto mb-6 rounded-2xl bg-gradient-to-br from-neon-purple to-neon-pink flex items-center justify-center text-3xl transform group-hover:scale-110 group-hover:rotate-6 transition-all">  
+                        🔷  
+                    </div>  
+                    <h3 class="text-xl font-bold text-white mb-2">Microsoft Azure</h3>  
+                    <p class="text-neon-purple font-semibold mb-2">Data Engineer (DP-203)</p>  
+                    <p class="text-gray-400 text-sm">In Progress - 2025</p>  
+                </div>  
+                  
+                <div class="glass-panel p-8 rounded-3xl text-center section-reveal hover-card group cursor-pointer">  
+                    <div class="w-20 h-20 mx-auto mb-6 rounded-2xl bg-gradient-to-br from-neon-green to-neon-blue flex items-center justify-center text-3xl transform group-hover:scale-110 group-hover:rotate-6 transition-all">  
+                        🧊  
+                    </div>  
+                    <h3 class="text-xl font-bold text-white mb-2">Databricks</h3>  
+                    <p class="text-neon-green font-semibold mb-2">Lakehouse Fundamentals</p>  
+                    <p class="text-gray-400 text-sm">Completed</p>  
+                </div>  
+            </div>  
+        </div>  
+    </section>  
+  
+    <!-- Contact Section -->  
+    <section id="contact" class="py-20 relative">  
+        <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">  
+            <div class="glass-panel rounded-3xl p-8 md:p-12 section-reveal">  
+                <div class="text-center mb-12">  
+                    <h2 class="font-display text-4xl md:text-5xl font-bold mb-4">  
+                        Let's Build <span class="gradient-text">Together</span>  
+                    </h2>  
+                    <p class="text-gray-400">Ready to architect your next data solution?</p>  
+                </div>  
+                  
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-8 mb-12">  
+                    <a href="mailto:psaiuttej@gmail.com" class="flex items-center gap-4 p-6 rounded-2xl bg-dark-700/50 hover:bg-dark-700 transition-colors group">  
+                        <div class="w-12 h-12 rounded-full bg-neon-blue/10 flex items-center justify-center group-hover:scale-110 transition-transform">  
+                            <svg class="w-6 h-6 text-neon-blue" fill="none" stroke="currentColor" viewBox="0 0 24 24">  
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"></path>  
+                            </svg>  
+                        </div>  
+                        <div>  
+                            <div class="text-sm text-gray-400">Email</div>  
+                            <div class="text-white font-semibold">psaiuttej@gmail.com</div>  
+                        </div>  
+                    </a>  
+                      
+                    <a href="tel:+919603921468" class="flex items-center gap-4 p-6 rounded-2xl bg-dark-700/50 hover:bg-dark-700 transition-colors group">  
+                        <div class="w-12 h-12 rounded-full bg-neon-purple/10 flex items-center justify-center group-hover:scale-110 transition-transform">  
+                            <svg class="w-6 h-6 text-neon-purple" fill="none" stroke="currentColor" viewBox="0 0 24 24">  
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z"></path>  
+                            </svg>  
+                        </div>  
+                        <div>  
+                            <div class="text-sm text-gray-400">Phone</div>  
+                            <div class="text-white font-semibold">+91 9603921468</div>  
+                        </div>  
+                    </a>  
+                      
+                    <a href="https://linkedin.com/in/sai-uttej-palde" target="_blank" class="flex items-center gap-4 p-6 rounded-2xl bg-dark-700/50 hover:bg-dark-700 transition-colors group">  
+                        <div class="w-12 h-12 rounded-full bg-neon-green/10 flex items-center justify-center group-hover:scale-110 transition-transform">  
+                            <svg class="w-6 h-6 text-neon-green" fill="currentColor" viewBox="0 0 24 24">  
+                                <path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433c-1.144 0-2.063-.926-2.063-2.065 0-1.138.92-2.063 2.063-2.063 1.14 0 2.064.925 2.064 2.063 0 1.139-.925 2.065-2.064 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/>  
+                            </svg>  
+                        </div>  
+                        <div>  
+                            <div class="text-sm text-gray-400">LinkedIn</div>  
+                            <div class="text-white font-semibold">sai-uttej-palde</div>  
+                        </div>  
+                    </a>  
+                      
+                    <a href="https://github.com/uttej2468" target="_blank" class="flex items-center gap-4 p-6 rounded-2xl bg-dark-700/50 hover:bg-dark-700 transition-colors group">  
+                        <div class="w-12 h-12 rounded-full bg-neon-pink/10 flex items-center justify-center group-hover:scale-110 transition-transform">  
+                            <svg class="w-6 h-6 text-neon-pink" fill="currentColor" viewBox="0 0 24 24">  
+                                <path fill-rule="evenodd" d="M12 2C6.477 2 2 6.484 2 12.017c0 4.425 2.865 8.18 6.839 9.504.5.092.682-.217.682-.483 0-.237-.008-.868-.013-1.703-2.782.605-3.369-1.343-3.369-1.343-.454-1.158-1.11-1.466-1.11-1.466-.908-.62.069-.608.069-.608 1.003.07 1.531 1.032 1.531 1.032.892 1.53 2.341 1.088 2.91.832.092-.647.35-1.088.636-1.338-2.22-.253-4.555-1.113-4.555-4.951 0-1.093.39-1.988 1.029-2.688-.103-.253-.446-1.272.098-2.65 0 0 .84-.27 2.75 1.026A9.564 9.564 0 0112 6.844c.85.004 1.705.115 2.504.337 1.909-1.296 2.747-1.027 2.747-1.027.546 1.379.202 2.398.1 2.651.64.7 1.028 1.595 1.028 2.688 0 3.848-2.339 4.695-4.566 4.943.359.309.678.92.678 1.855 0 1.338-.012 2.419-.012 2.747 0 .268.18.58.688.482A10.019 10.019 0 0022 12.017C22 6.484 17.522 2 12 2z" clip-rule="evenodd"/>  
+                            </svg>  
+                        </div>  
+                        <div>  
+                            <div class="text-sm text-gray-400">GitHub</div>  
+                            <div class="text-white font-semibold">uttej2468</div>  
+                        </div>  
+                    </a>  
+                </div>  
+                  
+                <div class="text-center">  
+                    <p class="text-gray-400 text-sm">Based in Pune, India • Open to Remote Opportunities</p>  
+                </div>  
+            </div>  
+        </div>  
+    </section>  
+  
+    <!-- Footer -->  
+    <footer class="py-8 border-t border-white/10">  
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex flex-col md:flex-row justify-between items-center gap-4">  
+            <div class="text-gray-400 text-sm">  
+                © 2025 Sai Uttej Palde. All rights reserved.  
+            </div>  
+            <div class="flex gap-6">  
+                <a href="#" class="text-gray-400 hover:text-neon-blue transition-colors text-sm">Privacy</a>  
+                <a href="#" class="text-gray-400 hover:text-neon-blue transition-colors text-sm">Terms</a>  
+            </div>  
+        </div>  
+    </footer>  
+  
+    <script>  
+        // Three.js Background  
+        const scene = new THREE.Scene();  
+        const camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);  
+        const renderer = new THREE.WebGLRenderer({ alpha: true, antialias: true });  
+        renderer.setSize(window.innerWidth, window.innerHeight);  
+        document.getElementById('canvas-container').appendChild(renderer.domElement);  
+  
+        // Create particles  
+        const particlesGeometry = new THREE.BufferGeometry();  
+        const particlesCount = 1500;  
+        const posArray = new Float32Array(particlesCount * 3);  
+        const colorArray = new Float32Array(particlesCount * 3);  
+  
+        for(let i = 0; i < particlesCount * 3; i += 3) {  
+            posArray[i] = (Math.random() - 0.5) * 50;  
+            posArray[i+1] = (Math.random() - 0.5) * 50;  
+            posArray[i+2] = (Math.random() - 0.5) * 50;  
+              
+            // Colors: cyan, purple, pink  
+            const colorChoice = Math.random();  
+            if(colorChoice < 0.33) {  
+                colorArray[i] = 0;  
+                colorArray[i+1] = 0.95;  
+                colorArray[i+2] = 1;  
+            } else if(colorChoice < 0.66) {  
+                colorArray[i] = 0.74;  
+                colorArray[i+1] = 0.05;  
+                colorArray[i+2] = 0.99;  
+            } else {  
+                colorArray[i] = 1;  
+                colorArray[i+1] = 0;  
+                colorArray[i+2] = 0.33;  
+            }  
+        }  
+  
+        particlesGeometry.setAttribute('position', new THREE.BufferAttribute(posArray, 3));  
+        particlesGeometry.setAttribute('color', new THREE.BufferAttribute(colorArray, 3));  
+  
+        const particlesMaterial = new THREE.PointsMaterial({  
+            size: 0.05,  
+            vertexColors: true,  
+            transparent: true,  
+            opacity: 0.8,  
+        });  
+  
+        const particlesMesh = new THREE.Points(particlesGeometry, particlesMaterial);  
+        scene.add(particlesMesh);  
+  
+        camera.position.z = 30;  
+  
+        // Mouse interaction  
+        let mouseX = 0;  
+        let mouseY = 0;  
+  
+        document.addEventListener('mousemove', (event) => {  
+            mouseX = (event.clientX / window.innerWidth) * 2 - 1;  
+            mouseY = -(event.clientY / window.innerHeight) * 2 + 1;  
+        });  
+  
+        // Animation loop  
+        function animate() {  
+            requestAnimationFrame(animate);  
+              
+            particlesMesh.rotation.x += 0.0005;  
+            particlesMesh.rotation.y += 0.0005;  
+              
+            particlesMesh.rotation.x += mouseY * 0.0005;  
+            particlesMesh.rotation.y += mouseX * 0.0005;  
+              
+            renderer.render(scene, camera);  
+        }  
+        animate();  
+  
+        // Resize handler  
+        window.addEventListener('resize', () => {  
+            camera.aspect = window.innerWidth / window.innerHeight;  
+            camera.updateProjectionMatrix();  
+            renderer.setSize(window.innerWidth, window.innerHeight);  
+        });  
+  
+        // GSAP Animations  
+        gsap.registerPlugin(ScrollTrigger);  
+  
+        // Reveal animations  
+        gsap.utils.toArray('.section-reveal').forEach(element => {  
+            gsap.to(element, {  
+                opacity: 1,  
+                y: 0,  
+                duration: 1,  
+                ease: "power3.out",  
+                scrollTrigger: {  
+                    trigger: element,  
+                    start: "top 80%",  
+                    toggleActions: "play none none reverse"  
+                }  
+            });  
+        });  
+  
+        // Counter animation  
+        const counters = document.querySelectorAll('.metric-counter');  
+        counters.forEach(counter => {  
+            const target = parseInt(counter.getAttribute('data-target'));  
+            gsap.to(counter, {  
+                innerHTML: target,  
+                duration: 2,  
+                snap: { innerHTML: 1 },  
+                scrollTrigger: {  
+                    trigger: counter,  
+                    start: "top 80%"  
+                }  
+            });  
+        });  
+  
+        // Custom cursor  
+        const cursor = document.getElementById('cursor');  
+        const cursorDot = document.getElementById('cursor-dot');  
+  
+        document.addEventListener('mousemove', (e) => {  
+            gsap.to(cursor, {  
+                x: e.clientX - 10,  
+                y: e.clientY - 10,  
+                duration: 0.1  
+            });  
+            gsap.to(cursorDot, {  
+                x: e.clientX - 2,  
+                y: e.clientY - 2,  
+                duration: 0.5  
+            });  
+        });  
+  
+        document.addEventListener('mousedown', () => {  
+            cursor.style.transform = 'scale(0.8)';  
+        });  
+  
+        document.addEventListener('mouseup', () => {  
+            cursor.style.transform = 'scale(1)';  
+        });  
+  
+        // Live Metrics Chart  
+        const canvas = document.getElementById('metricsChart');  
+        const ctx = canvas.getContext('2d');  
+        canvas.width = canvas.offsetWidth;  
+        canvas.height = canvas.offsetHeight;  
+  
+        const dataPoints = [];  
+        const maxPoints = 50;  
+        let offset = 0;  
+  
+        function drawChart() {  
+            ctx.fillStyle = 'rgba(18, 18, 26, 0.1)';  
+            ctx.fillRect(0, 0, canvas.width, canvas.height);  
+  
+            // Generate new data point  
+            const newValue = Math.random() * 100 + 200;  
+            dataPoints.push(newValue);  
+            if(dataPoints.length > maxPoints) dataPoints.shift();  
+  
+            // Draw line  
+            ctx.beginPath();  
+            ctx.strokeStyle = '#00f3ff';  
+            ctx.lineWidth = 2;  
+              
+            dataPoints.forEach((point, index) => {  
+                const x = (index / maxPoints) * canvas.width;  
+                const y = canvas.height - (point / 400) * canvas.height;  
+                if(index === 0) ctx.moveTo(x, y);  
+                else ctx.lineTo(x, y);  
+            });  
+            ctx.stroke();  
+  
+            // Draw gradient fill  
+            ctx.lineTo(canvas.width, canvas.height);  
+            ctx.lineTo(0, canvas.height);  
+            ctx.closePath();  
+            const gradient = ctx.createLinearGradient(0, 0, 0, canvas.height);  
+            gradient.addColorStop(0, 'rgba(0, 243, 255, 0.3)');  
+            gradient.addColorStop(1, 'rgba(0, 243, 255, 0)');  
+            ctx.fillStyle = gradient;  
+            ctx.fill();  
+  
+            // Update metrics  
+            document.getElementById('throughput').textContent = Math.floor(newValue) + ' MB/s';  
+            document.getElementById('recordsProcessed').textContent = Math.floor(newValue * 1000).toLocaleString();  
+              
+            requestAnimationFrame(drawChart);  
+        }  
+        drawChart();  
+  
+        // Skills interaction  
+        const skillDetails = {  
+            aws: { title: 'AWS Ecosystem', desc: 'S3, Glue, EMR, Redshift, Lambda, Kinesis, CloudWatch, IAM, CloudFormation' },  
+            azure: { title: 'Azure Platform', desc: 'Data Factory, Databricks, ADLS, Synapse Analytics, Microsoft Fabric, Monitor' },  
+            spark: { title: 'Apache Spark', desc: 'PySpark, Spark Streaming, Delta Lake, Performance Tuning, Distributed Processing' },  
+            python: { title: 'Python & SQL', desc: 'FastAPI, Pandas, SQL Optimization, Data Modeling, ETL/ELT Development' },  
+            snowflake: { title: 'Snowflake', desc: 'Data Warehousing, Query Optimization, Security & Governance' },  
+            airflow: { title: 'Apache Airflow', desc: 'DAG Orchestration, SLA Monitoring, Automated Workflows' },  
+            dbt: { title: 'dbt', desc: 'Data Transformation, Testing, Documentation, Version Control' },  
+            kafka: { title: 'Apache Kafka', desc: 'Stream Processing, MSK, Real-time Data Ingestion' }  
+        };  
+  
+        document.querySelectorAll('.tech-stack-item').forEach(item => {  
+            item.addEventListener('mouseenter', (e) => {  
+                const skill = e.target.getAttribute('data-skill');  
+                const detail = document.getElementById('skillDetail');  
+                document.getElementById('skillTitle').textContent = skillDetails[skill].title;  
+                document.getElementById('skillDesc').textContent = skillDetails[skill].desc;  
+                detail.style.opacity = '1';  
+                detail.style.transform = 'translateX(-50%) translateY(0)';  
+            });  
+              
+            item.addEventListener('mouseleave', () => {  
+                const detail = document.getElementById('skillDetail');  
+                detail.style.opacity = '0';  
+                detail.style.transform = 'translateX(-50%) translateY(10px)';  
+            });  
+        });  
+  
+        // Navigation functions  
+        function scrollToSection(sectionId) {  
+            document.getElementById(sectionId).scrollIntoView({ behavior: 'smooth' });  
+        }  
+  
+        function scrollToContact() {  
+            document.getElementById('contact').scrollIntoView({ behavior: 'smooth' });  
+        }  
+  
+        function downloadResume() {  
+            alert('Resume download functionality - In a real implementation, this would download the PDF');  
+        }  
+  
+        // Create data particles on click  
+        document.addEventListener('click', (e) => {  
+            for(let i = 0; i < 5; i++) {  
+                const particle = document.createElement('div');  
+                particle.className = 'data-particle';  
+                particle.style.left = e.clientX + 'px';  
+                particle.style.top = e.clientY + 'px';  
+                document.body.appendChild(particle);  
+                  
+                gsap.to(particle, {  
+                    x: (Math.random() - 0.5) * 100,  
+                    y: (Math.random() - 0.5) * 100,  
+                    opacity: 0,  
+                    duration: 1,  
+                    onComplete: () => particle.remove()  
+                });  
+            }  
+        });  
+  
+        // Glitch effect on hover for title  
+        const glitchElement = document.querySelector('.glitch');  
+        setInterval(() => {  
+            if(Math.random() > 0.95) {  
+                glitchElement.style.animation = 'none';  
+                setTimeout(() => {  
+                    glitchElement.style.animation = '';  
+                }, 100);  
+            }  
+        }, 2000);  
+    </script>  
+</body>  
+</html>  
